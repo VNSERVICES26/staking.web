@@ -104,6 +104,8 @@ window.addEventListener('DOMContentLoaded', async () => {
         
     }
 
+    await loadDailyVNTRewards();
+
     if (window.location.pathname.includes('stake.html')) {
       await setupStakingPage();
     }
