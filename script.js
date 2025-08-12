@@ -383,33 +383,57 @@ async function claimVNTRewards() {
     }
 }
 
+// loadDailyVNTRewards() function ko modify karein
 async function loadDailyVNTRewards() {
-  if (!isConnected || !accounts[0]) return;
-  
-  const rewardsDisplay = document.getElementById('dailyVntRewardsDisplay');
-  if (!rewardsDisplay) return;
-
   try {
-    rewardsDisplay.innerHTML = '<div class="loading-spinner"></div>';
+    const rewardsDisplay = document.getElementById('dailyVntRewardsDisplay');
+    if (!rewardsDisplay) return;
+
+    // Raw rewards fetch karein
+    const rawRewards = await stakingContract.methods
+      .getPendingRewards(accounts[0])
+      .call({ from: accounts[0] });
     
-    // पेंडिंग रिवॉर्ड्स प्राप्त करें
-    const rewards = await stakingContract.methods.getPendingRewards(accounts[0]).call();
-    const vntRewards = web3.utils.fromWei(rewards[0], 'ether');
+    // Manual calculation karein (contract ke bug ko compensate karte hue)
+    const userStakes = await stakingContract.methods
+      .getStakeHistory(accounts[0])
+      .call();
     
-    // डेली रिवॉर्ड्स कैलकुलेट करें (365 दिनों में विभाजित)
-    const dailyVNT = parseFloat(vntRewards) / 365;
+    let correctRewards = 0;
+    const currentDay = Math.floor(Date.now() / 86400);
     
+    for(let i = 0; i < userStakes.amounts.length; i++) {
+      if(userStakes.isActive[i]) {
+        const stakedDays = currentDay - userStakes.startDays[i];
+        const claimedDays = 0; // Since lastClaimDay not working
+        
+        if(stakedDays > 365) stakedDays = 365;
+        if(stakedDays > claimedDays) {
+          const unclaimedDays = stakedDays - claimedDays;
+          correctRewards += (userStakes.amounts[i] * 2 * unclaimedDays) / 365;
+        }
+      }
+    }
+    
+    // Display both values for debugging
     rewardsDisplay.innerHTML = `
       <div class="reward-item">
-        <span class="reward-label">Pending Total:</span>
-        <span class="reward-value">${parseFloat(vntRewards).toFixed(4)} VNT</span>
+        <span class="reward-label">Raw Contract Value:</span>
+        <span class="reward-value">${web3.utils.fromWei(rawRewards, 'ether')} VNT</span>
       </div>
-      <small>Updates automatically</small>
+      <div class="reward-item">
+        <span class="reward-label">Corrected Value:</span>
+        <span class="reward-value">${web3.utils.fromWei(correctRewards.toString(), 'ether')} VNT</span>
+      </div>
+      <small>Note: Contract has calculation bug</small>
     `;
     
   } catch (error) {
-    console.error("Error loading daily rewards:", error);
-    rewardsDisplay.innerHTML = '<p class="error">Error loading rewards</p>';
+    console.error("Error loading rewards:", error);
+    const rewardsDisplay = document.getElementById('dailyVntRewardsDisplay');
+    if (rewardsDisplay) {
+      rewardsDisplay.innerHTML = '<div class="error">Error loading rewards</div>';
+    }
   }
 }
 
