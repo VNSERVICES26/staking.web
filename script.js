@@ -668,7 +668,13 @@ async function getStakeDetails(stakeIndex) {
   }
 }
 
+// updatePendingRewardsUI() function ko replace karein ye code se
 async function updatePendingRewardsUI() {
+    if (!isConnected || !accounts[0]) {
+        console.log("Not connected, skipping rewards update");
+        return;
+    }
+
     const rewardsElement = document.getElementById('dailyVntRewardsDisplay');
     if (!rewardsElement) {
         console.error("Rewards display element not found!");
@@ -676,40 +682,26 @@ async function updatePendingRewardsUI() {
     }
 
     try {
-        // Clear previous content but keep loading visible
-        rewardsElement.innerHTML = '<div class="loading-spinner"></div>';
+        // Loading message show karein
+        rewardsElement.innerHTML = '<div class="loading">Loading rewards...</div>';
         
-        // Force reflow to ensure element is visible
-        rewardsElement.style.display = 'block';
-        rewardsElement.style.visibility = 'visible';
-        rewardsElement.style.opacity = '1';
-        rewardsElement.style.height = 'auto';
-
+        // Contract call karein
         const rewards = await stakingContract.methods.getPendingRewards(accounts[0]).call();
         const vntRewards = web3.utils.fromWei(rewards[0].toString(), 'ether');
         
-        console.log("Raw rewards:", rewards[0], "Converted:", vntRewards);
-
-        // Create new HTML structure
-        const newHTML = `
+        // Simple format mein display karein
+        rewardsElement.innerHTML = `
             <div class="reward-item">
-                <span class="reward-label">Pending VNT:</span>
                 <span class="reward-value">${parseFloat(vntRewards).toFixed(4)} VNT</span>
-            </div>
-            <div class="reward-item">
-                <span class="reward-label">Daily Estimate:</span>
-                <span class="reward-value">${(parseFloat(vntRewards)/365).toFixed(6)} VNT</span>
+                <span class="reward-label">Pending Rewards</span>
             </div>
         `;
-
-        // Completely replace the content
-        rewardsElement.innerHTML = newHTML;
-
+        
     } catch (error) {
         console.error("Rewards update error:", error);
         rewardsElement.innerHTML = `
             <div class="error-message">
-                Error loading rewards. Please try again.
+                Rewards load nahi ho paye. Baad mein try karein.
             </div>
         `;
     }
