@@ -398,33 +398,40 @@ async function loadDailyVNTRewards() {
       .getStakeHistory(accounts[0])
       .call();
     
-    let correctRewards = 0;
+    let correctRewards = web3.utils.toBN(0); // BN object use karein
     const currentDay = Math.floor(Date.now() / 86400);
     
     for(let i = 0; i < userStakes.amounts.length; i++) {
       if(userStakes.isActive[i]) {
-        let stakedDays = currentDay - userStakes.startDays[i]; // YAHAN 'let' USE KAREIN
+        let stakedDays = currentDay - userStakes.startDays[i];
         const claimedDays = 0;
         
-        // stakedDays ko modify kar sakte hain kyunki ab ye 'let' hai
         if(stakedDays > 365) stakedDays = 365;
         
         if(stakedDays > claimedDays) {
           const unclaimedDays = stakedDays - claimedDays;
-          correctRewards += (userStakes.amounts[i] * 2 * unclaimedDays) / 365;
+          // BN arithmetic use karein
+          const stakeAmount = web3.utils.toBN(userStakes.amounts[i]);
+          const reward = stakeAmount.mul(web3.utils.toBN(2))
+                            .mul(web3.utils.toBN(unclaimedDays))
+                            .div(web3.utils.toBN(365));
+          correctRewards = correctRewards.add(reward);
         }
       }
     }
     
-    // Display both values
+    // BN ko string mein convert karein phir fromWei use karein
+    const rawRewardsEth = web3.utils.fromWei(rawRewards.toString(), 'ether');
+    const correctRewardsEth = web3.utils.fromWei(correctRewards.toString(), 'ether');
+    
     rewardsDisplay.innerHTML = `
       <div class="reward-item">
         <span class="reward-label">Contract Value:</span>
-        <span class="reward-value">${web3.utils.fromWei(rawRewards, 'ether')} VNT</span>
+        <span class="reward-value">${parseFloat(rawRewardsEth).toFixed(4)} VNT</span>
       </div>
       <div class="reward-item">
         <span class="reward-label">Estimated Actual:</span>
-        <span class="reward-value">${web3.utils.fromWei(correctRewards.toString(), 'ether')} VNT</span>
+        <span class="reward-value">${parseFloat(correctRewardsEth).toFixed(4)} VNT</span>
       </div>
       <small>Note: Showing estimated rewards due to contract bug</small>
     `;
