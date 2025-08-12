@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stake VNST | VNST Staking</title>
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <nav class="navbar">
+        <img src="assets/logo.png" alt="VNST Logo" class="logo">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button> 
+        <ul id="navMenu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="stake.html" class="active">Stake</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="swap.html">Swap</a></li>
+            <button class="wallet-connect-btn" id="connectWalletBtn">Connect Wallet</button>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="content-section">
+            <h2>Stake VNST Tokens</h2>
+            
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Staking Details</h3>
+                    <div class="form-group">
+                        <input type="number" id="stakeAmount" placeholder="Enter VNST amount (100-10000)" min="100" max="10000">
+                        <input type="text" id="referralAddress" placeholder="Referral address (optional)">
+                        <button class="btn" id="approveMaxBtn">Approve VNST</button>
+                        <div class="info-text">Tap Only one time dont Tap again</div>
+                        <button class="btn" id="stakeBtn">Stake VNST</button>
+                    </div>
+                    <div class="info-text">Minimum: 100 VNST | Maximum: 10,000 VNST</div>
+                    <div class="info-text">Withdrawal fee: 5%</div>
+                </div>
+
+                <div class="card rewards-container">
+                  <h3>Your Daily VNT Rewards</h3>
+                  <div id="dailyVntRewardsDisplay">
+                    <div class="loading-spinner"></div>
+                  </div>
+                </div>
+                <div class="card">
+                    <h3>Your Stakes</h3>
+                    <div id="stakesList">
+                        <!-- Dynamic stakes will be added here -->
+                        <p>No active stakes found</p>
+                    </div>
+                    <div class="info-text">minimum withdraw 50 VNT</div>
+                    <button id="claimVNTBtn" class="btn btn-primary">Claim VNT Only</button>
+                    <div class="info-text">You can claim rewards once every 24 hours</div>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top: 2rem;">
+                <h3>Referral Program</h3>
+                <div class="level-details">
+                    <p><strong>Level 1:</strong> 5% VNST auto-staking</p>
+                    <p><strong>Level 2:</strong> 3% USDT rewards</p>
+                    <p><strong>Level 3:</strong> 2% USDT rewards</p>
+                    <p><strong>Level 4:</strong> 1% USDT rewards</p>
+                    <p><strong>Level 5:</strong> 1% USDT rewards</p>
+                </div>
+                <div class="unlock-status">
+                    <p>Share your referral link to earn more rewards:</p>
+                    <input type="text" id="referralLink" readonly style="margin-top: 10px;">
+                    <button class="btn" id="copyReferralBtn" style="margin-top: 10px;">Copy Link</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 VNST Staking Platform. All rights reserved.</p>
+    </footer>
+
+    <!-- Wallet Connect Modal -->
+    <div class="modal" id="walletModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Connect Wallet</h2>
+            <div class="wallet-options">
+                <button class="wallet-btn" id="metamaskBtn">
+                    <img src="assets/metamask-icon.png" alt="MetaMask"> MetaMask
+                </button>
+                <button class="wallet-btn" id="walletConnectBtn">
+                    <img src="assets/walletconnect-icon.png" alt="WalletConnect"> WalletConnect
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
