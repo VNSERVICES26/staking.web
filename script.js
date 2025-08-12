@@ -109,13 +109,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     if (window.location.pathname.includes('stake.html')) {
       await setupStakingPage();
     }
-    
-    if (isConnected) {
-        await updatePendingRewardsUI();
-        setInterval(async () => {
-            if (isConnected) await updatePendingRewardsUI();
-        }, 30000);
-    }
 });
 
 // Initialize contracts
@@ -642,7 +635,7 @@ async function setupStakingPage() {
     
     if (isConnected) {
         try {
-            await updatePendingRewardsUI();
+            await loadDailyVNTRewards();
         } catch (error) {
             console.error("Rewards update failed:", error);
         }
@@ -671,7 +664,7 @@ async function getStakeDetails(stakeIndex) {
 }
 
 // updatePendingRewardsUI() function ko replace karein ye code se
-async function updatePendingRewardsUI() {
+function updatePendingRewardsUI() {
     if (!isConnected || !accounts[0]) {
         console.log("Not connected, skipping rewards update");
         return;
