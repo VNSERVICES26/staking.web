@@ -383,7 +383,6 @@ async function claimVNTRewards() {
     }
 }
 
-// loadDailyVNTRewards() function ko modify karein
 async function loadDailyVNTRewards() {
   try {
     const rewardsDisplay = document.getElementById('dailyVntRewardsDisplay');
@@ -394,7 +393,7 @@ async function loadDailyVNTRewards() {
       .getPendingRewards(accounts[0])
       .call({ from: accounts[0] });
     
-    // Manual calculation karein (contract ke bug ko compensate karte hue)
+    // Manual calculation karein
     const userStakes = await stakingContract.methods
       .getStakeHistory(accounts[0])
       .call();
@@ -404,10 +403,12 @@ async function loadDailyVNTRewards() {
     
     for(let i = 0; i < userStakes.amounts.length; i++) {
       if(userStakes.isActive[i]) {
-        const stakedDays = currentDay - userStakes.startDays[i];
-        const claimedDays = 0; // Since lastClaimDay not working
+        let stakedDays = currentDay - userStakes.startDays[i]; // YAHAN 'let' USE KAREIN
+        const claimedDays = 0;
         
+        // stakedDays ko modify kar sakte hain kyunki ab ye 'let' hai
         if(stakedDays > 365) stakedDays = 365;
+        
         if(stakedDays > claimedDays) {
           const unclaimedDays = stakedDays - claimedDays;
           correctRewards += (userStakes.amounts[i] * 2 * unclaimedDays) / 365;
@@ -415,24 +416,29 @@ async function loadDailyVNTRewards() {
       }
     }
     
-    // Display both values for debugging
+    // Display both values
     rewardsDisplay.innerHTML = `
       <div class="reward-item">
-        <span class="reward-label">Raw Contract Value:</span>
+        <span class="reward-label">Contract Value:</span>
         <span class="reward-value">${web3.utils.fromWei(rawRewards, 'ether')} VNT</span>
       </div>
       <div class="reward-item">
-        <span class="reward-label">Corrected Value:</span>
+        <span class="reward-label">Estimated Actual:</span>
         <span class="reward-value">${web3.utils.fromWei(correctRewards.toString(), 'ether')} VNT</span>
       </div>
-      <small>Note: Contract has calculation bug</small>
+      <small>Note: Showing estimated rewards due to contract bug</small>
     `;
     
   } catch (error) {
     console.error("Error loading rewards:", error);
     const rewardsDisplay = document.getElementById('dailyVntRewardsDisplay');
     if (rewardsDisplay) {
-      rewardsDisplay.innerHTML = '<div class="error">Error loading rewards</div>';
+      rewardsDisplay.innerHTML = `
+        <div class="error">
+          Rewards load nahi ho paye. Kripya baad mein try karein.
+          <br>Error: ${error.message || 'Unknown error'}
+        </div>
+      `;
     }
   }
 }
