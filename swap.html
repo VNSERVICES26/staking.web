@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VNT Token Swap</title>
+    <link rel="stylesheet" href="swap-style.css">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <link rel="icon" href="data:,">
+</head>
+<body>
+    <nav class="navbar">
+        <img src="assets/logo.png" alt="VNST Logo" class="logo">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        <ul id="navMenu">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="stake.html">Stake</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="swap.html">Swap</a></li>
+            <li class="nav-btn-container"></li>
+        </ul>   
+    </nav>
+    <div class="container">
+        <header>
+            <h1>VNT Token Swap</h1>
+            <button id="connectWalletBtn" class="gold-btn">Connect Wallet</button>
+            <div id="walletInfo" class="hidden">
+                <p>Connected: <span id="walletAddress"></span></p>
+
+                <p>VNT Balance: <span id="vntBalance">0</span></p>
+            </div>
+        </header>
+
+        <div class="info-card">
+            <div class="info-row">
+                <span class="info-label">VNT Price:</span>
+                <span class="info-value" id="vntPrice">Loading...</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Minimum Sale:</span>
+                <span class="info-value" id="minSellAmount">Loading...</span>
+            </div>
+        </div>  
+
+        <div class="swap-container">
+            <div class="swap-form">
+                <div class="input-group">
+                    <label for="vntAmount">VNT Amount</label>
+                    <input type="number" id="vntAmount" placeholder="Enter VNT amount">
+                    <div id="quoteResult" class="quote-result hidden">
+                        <p>You will receive: <span id="usdtAmount">0</span> USDT</p>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="approveBtn" class="gold-btn" disabled>Approve VNT</button>
+                    <button id="sellBtn" class="gold-btn" disabled>Sell VNT</button>
+                </div>
+
+                <div class="contract-info">
+                    <p>VNT Contract: <span id="vntContract">Loading...</span></p>
+                    <button id="copyContractBtn" class="gold-btn small">Copy Address</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="statusMessages"></div>
+    </div>
+
+    <script src="swap-script.js"></script>
+</body>
+</html>
