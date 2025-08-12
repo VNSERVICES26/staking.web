@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="VNST">
+    <meta name="theme-color" content="#ffb300">
+    <title>VNST Staking Platform</title>
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preload" href="your-font.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <nav class="navbar">
+        <img src="assets/logo.png" alt="VNST Logo" class="logo">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        <ul id="navMenu">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="stake.html">Stake</a></li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="swap.html">Swap</a></li>
+            <li class="nav-btn-container">
+              <button class="wallet-connect-btn" id="connectWalletBtn">Connect Wallet</button>
+            </li>
+        </ul>   
+    </nav>
+
+    <main>
+        <section class="content-section">
+          <h2>VNST Staking Overview</h2>
+          <div class="stats-container">
+            <div class="card">
+              <h3>Total Members</h3>
+              <div class="value" id="totalUsers">0</div>
+              <div class="label">Users joined our platform</div>
+            </div>
+    
+            <div class="card">
+              <h3>Total VNST Staked</h3>
+              <div class="value" id="totalStakedInContract">0 VNST</div>
+              <div class="label">Across all users</div>
+            </div>
+    
+            <div class="card">
+              <h3>Total VNT Withdrawn</h3>
+              <div class="value" id="totalVNTWithdrawn">0 VNT</div>
+              <div class="label">From contract</div>
+            </div>
+          </div>
+   
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="stake.html" class="btn">Start Staking Now</a>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>How It Works</h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>1. Connect Wallet</h3>
+                    <p>Connect your EVM compatible wallet like MetaMask or WalletConnect</p>
+                </div>
+                <div class="card">
+                    <h3>2. Stake VNST</h3>
+                    <p>Stake your VNST tokens to start earning rewards</p>
+                </div>
+                <div class="card">
+                    <h3>3. Earn Rewards</h3>
+                    <p>Earn VNT and USDT rewards daily from staking and referrals</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 VNST Staking Platform. All rights reserved.</p>
+    </footer>
+         
+    <!-- Wallet Modal (इसे </body> टैग से ठीक पहले जोड़ें) -->
+    <div id="walletModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Connect Wallet</h3>
+        <button id="metamaskBtn" class="wallet-btn">
+          <img src="assets/metamask-icon.png" alt="MetaMask">
+          MetaMask
+        </button>
+        <button id="walletConnectBtn" class="wallet-btn">
+          <img src="assets/walletconnect-icon.png" alt="WalletConnect">
+          WalletConnect
+        </button>
+      </div>
+    </div>
+
+    
+    <script src="script.js"></script>
+</body>
+</html>
