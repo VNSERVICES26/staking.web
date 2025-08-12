@@ -681,7 +681,7 @@ function updatePendingRewardsUI() {
         rewardsElement.innerHTML = '<div class="loading">Loading rewards...</div>';
         
         // Contract call karein
-        const rewards = await stakingContract.methods.getPendingRewards(accounts[0]).call();
+        
         const vntRewards = web3.utils.fromWei(rewards[0].toString(), 'ether');
         
         // Simple format mein display karein
