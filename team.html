@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team | VNST Staking</title>
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.7.8/dist/umd/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <nav class="navbar">
+      <img src="assets/logo.png" alt="VNST Logo" class="logo">
+      <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+      <ul id="navMenu">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="stake.html">Stake</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="swap.html">Swap</a></li>
+        <li class="nav-btn-container">
+          <button class="wallet-connect-btn" id="connectWalletBtn">Connect Wallet</button>
+        </li>
+        <li class="network-switcher-container">
+          <div class="network-switcher">
+            <span id="networkIndicator" class="network-indicator">Testnet</span>
+            <button id="networkSwitchBtn" class="network-switch-btn">
+              Switch to Mainnet
+            </button>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+        <section class="content-section">
+          <h2>Your Team</h2>
+  
+          <div class="team-grid">
+            <div class="card team-card">
+              <h4>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                Total Team
+              </h4>
+              <div class="team-stats">
+                <div class="team-stat">
+                  <span class="label">Members:</span>
+                  <span class="value" id="totalTeamMembers">0</span>
+                </div>
+                <div class="team-stat">
+                  <span class="label">Total Stake:</span>
+                  <span class="value" id="totalTeamStake">0 VNST</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="team-summary">
+              <div class="stat-item">
+                <span>Total Team Members:</span>
+                <span id="totalTeamMembers">0</span>
+              </div>
+              <div class="stat-item">
+                <span>Total Team Stake:</span>
+                <span id="totalTeamStake">0 VNST</span>
+              </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 VNST Staking Platform. All rights reserved.</p>
+    </footer>
+
+    <!-- Wallet Connect Modal -->
+    <div class="modal" id="walletModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Connect Wallet</h2>
+            <div class="wallet-options">
+                <button class="wallet-btn" id="metamaskBtn">
+                    <img src="assets/metamask-icon.png" alt="MetaMask"> MetaMask
+                </button>
+                <button class="wallet-btn" id="walletConnectBtn">
+                    <img src="assets/walletconnect-icon.png" alt="WalletConnect"> WalletConnect
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="script.js"></script>
+</body>
+</html>
